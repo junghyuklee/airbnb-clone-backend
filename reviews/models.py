@@ -5,17 +5,9 @@ from common.models import CommonModel
 class Review(CommonModel):
     """Review from a User to a Room or Experiences"""
 
-    class RatingKindChoices(models.IntegerChoices):
-        ONE_STAR = 1
-        TWO_STAR = 2
-        THREE_STAR = 3
-        FOUR_STAR = 4
-        FIVE_STAR = 5
-
     user = models.ForeignKey(
         "users.User",
-        on_delete=models.SET_DEFAULT,
-        default="deleted",
+        on_delete=models.CASCADE,
     )
     room = models.ForeignKey(
         "rooms.Room",
@@ -30,9 +22,7 @@ class Review(CommonModel):
         on_delete=models.CASCADE,
     )
     payload = models.TextField()
-    rating = models.PositiveIntegerField(
-        choices=RatingKindChoices.choices,
-    )
+    rating = models.PositiveIntegerField()
 
     def __str__(self) -> str:
         return f"{self.user} ({self.rating}⭐️)"
