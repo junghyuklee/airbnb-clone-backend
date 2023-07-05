@@ -12,7 +12,6 @@ class Room(CommonModel):
         max_length=180,
         default="",
     )
-
     country = models.CharField(
         max_length=50,
         default="한국",
@@ -24,7 +23,7 @@ class Room(CommonModel):
     price = models.PositiveIntegerField()
     rooms = models.PositiveIntegerField()
     toilets = models.PositiveIntegerField()
-    descriptions = models.TextField()
+    description = models.TextField()
     address = models.CharField(max_length=250)
     pet_friendly = models.BooleanField(
         default=False,
@@ -40,6 +39,7 @@ class Room(CommonModel):
     )
     amenities = models.ManyToManyField(
         "rooms.Amenity",
+        related_name="rooms",
     )
     category = models.ForeignKey(
         "categories.Category",
