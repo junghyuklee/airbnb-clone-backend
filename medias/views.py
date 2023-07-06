@@ -3,11 +3,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import (
     NotFound,
-    NotAuthenticated,
     PermissionDenied,
 )
 from rest_framework.status import HTTP_204_NO_CONTENT
-from .models import Photo
+from .models import Photo, Video
 
 
 class PhotoDetail(APIView):
@@ -27,3 +26,19 @@ class PhotoDetail(APIView):
             raise PermissionDenied
         photo.delete()
         return Response(status=HTTP_204_NO_CONTENT)
+
+    class VideoDetail(APIView):
+        permission_classes = [IsAuthenticated]
+
+        def get_object(self, pk):
+            try:
+                return Video.objects.get(pk=pk)
+            except Video.DoesNotExist:
+                raise NotFound
+
+        def delete(self, request, pk):
+            video = self.get_object(pk)
+            if video.experience and video.experience.host != request.user:
+                raise PermissionDenied
+            video.delete()
+            return Response(status=HTTP_204_NO_CONTENT)

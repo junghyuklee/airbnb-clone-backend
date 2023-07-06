@@ -13,7 +13,11 @@ from rest_framework.status import HTTP_204_NO_CONTENT
 from .models import Amenity, Room
 from categories.models import Category
 from bookings.models import Booking
-from .serializers import AmenitySerializer, RoomListSerializer, RoomDetailSerializer
+from .serializers import (
+    AmenitySerializer,
+    RoomListSerializer,
+    RoomDetailSerializer,
+)
 from reviews.serializers import ReviewSerializer
 from medias.serializers import PhotoSerializer
 from bookings.serializers import PublicBookingSerializer, CreateRoomBookingSerializer
@@ -205,7 +209,6 @@ class RoomBookings(APIView):
     def get(self, request, pk):
         room = self.get_object(pk)
         now = timezone.localtime(timezone.now()).date()
-        print(now)
         bookings = Booking.objects.filter(
             room=room,
             kind=Booking.BookingKindChoices.ROOM,
