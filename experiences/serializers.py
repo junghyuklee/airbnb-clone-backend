@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from .models import Perk, Experience
 from wishlists.models import Wishlist
-from users.serializers import TinyUserSerializer
+from common.serializers import TinyUserSerializer
 from categories.serializers import CategorySerializer
-from medias.serializers import PhotoSerializer
+from medias.serializers import PhotoSerializer, VideoSerializer
 
 
 class PerkSerializer(serializers.ModelSerializer):
@@ -19,7 +19,7 @@ class PerkSerializer(serializers.ModelSerializer):
 class ExperienceListSerializer(serializers.ModelSerializer):
     rating = serializers.SerializerMethodField()
     is_host = serializers.SerializerMethodField()
-    photos = PhotoSerializer(read_only=True, many=True)
+    video = VideoSerializer(read_only=True)
 
     class Meta:
         model = Experience
@@ -31,7 +31,7 @@ class ExperienceListSerializer(serializers.ModelSerializer):
             "price",
             "rating",
             "is_host",
-            "photos",
+            "video",
         )
 
     def get_rating(self, experience):
@@ -50,6 +50,7 @@ class ExperienceDetailSerializer(serializers.ModelSerializer):
     is_host = serializers.SerializerMethodField()
     is_like = serializers.SerializerMethodField()
     photos = PhotoSerializer(read_only=True, many=True)
+    video = VideoSerializer(read_only=True)
 
     class Meta:
         model = Experience

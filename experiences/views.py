@@ -20,7 +20,10 @@ from .serializers import (
 )
 from reviews.serializers import ReviewSerializer
 from medias.serializers import PhotoSerializer, VideoSerializer
-from bookings.serializers import PublicBookingSerializer, CreateRoomBookingSerializer
+from bookings.serializers import (
+    PublicBookingSerializer,
+    CreateExperienceBookingSerializer,
+)
 
 
 class Experiences(APIView):
@@ -232,13 +235,27 @@ class ExperienceBookings(APIView):
     def get(self, request, pk):
         experience = self.get_object(pk)
         now = timezone.localtime(timezone.now()).date()
-        bookings = Booking.objects.fliter(
+        bookings = Booking.objects.filter(
             experience=experience,
             kind=Booking.BookingKindChoices.EXPERIENCE,
-            check_in__gte=now,
+            experience_time__gte=now,
         )
         serializer = PublicBookingSerializer(bookings, many=True)
         return Response(serializer.data)
+
+    def post(self, request, pk):
+        experience = self.get_object(pk)
+        serializer = CreateExperienceBookingSerializer(data=request.data)
+        if serializer.is_valid():
+            booking = serializer.save(
+                experience=experience,
+                kind=Booking.BookingKindChoices.EXPERIENCE,
+                user=request.user,
+            )
+            serializer = PublicBookingSerializer(booking)
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
 
 
 class Perks(APIView):

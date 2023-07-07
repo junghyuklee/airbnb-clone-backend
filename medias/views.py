@@ -27,18 +27,19 @@ class PhotoDetail(APIView):
         photo.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
-    class VideoDetail(APIView):
-        permission_classes = [IsAuthenticated]
 
-        def get_object(self, pk):
-            try:
-                return Video.objects.get(pk=pk)
-            except Video.DoesNotExist:
-                raise NotFound
+class VideoDetail(APIView):
+    permission_classes = [IsAuthenticated]
 
-        def delete(self, request, pk):
-            video = self.get_object(pk)
-            if video.experience and video.experience.host != request.user:
-                raise PermissionDenied
-            video.delete()
-            return Response(status=HTTP_204_NO_CONTENT)
+    def get_object(self, pk):
+        try:
+            return Video.objects.get(pk=pk)
+        except Video.DoesNotExist:
+            raise NotFound
+
+    def delete(self, request, pk):
+        video = self.get_object(pk)
+        if video.experience and video.experience.host != request.user:
+            raise PermissionDenied
+        video.delete()
+        return Response(status=HTTP_204_NO_CONTENT)
