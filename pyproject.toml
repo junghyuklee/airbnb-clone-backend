@@ -12,6 +12,8 @@ python = "^3.11"
 django = "^4.2.1"
 pillow = "^9.5.0"
 djangorestframework = "^3.14.0"
+strawberry-graphql = {extras = ["debug-server"], version = "^0.193.1"}
+strawberry-graphql-django = "^0.10.3"
 
 
 [build-system]
