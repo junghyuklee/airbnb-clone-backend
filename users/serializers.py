@@ -28,5 +28,4 @@ class PrivateUserSerializer(serializers.ModelSerializer):
     def get_reviews(self, user):
         reviews = Review.objects.filter(user=user).order_by("created_at")[0:3]
         serializer = UserReviewSerializer(reviews, many=True)
-        print(serializer.data)
         return serializer.data

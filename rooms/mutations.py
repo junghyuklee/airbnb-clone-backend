@@ -32,9 +32,7 @@ def add_room(info: Info, add_room: AddRoomType):
                 owner=info.context.request.user,
                 category=category,
             )
-            print("방방여기다", room)
             for amenity_pk in add_room.amenities:
-                print("여기요여기요", amenity_pk)
                 amenity = Amenity.objects.get(pk=amenity_pk)
                 room.amenities.add(amenity)
             room.save()

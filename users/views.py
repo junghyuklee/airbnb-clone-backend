@@ -36,7 +36,6 @@ class Users(APIView):
         password = request.data.get("password")
         if not password:
             raise ParseError("비밀번호를 입력하세요.")
-        print(len(password))
         if len(password) < 8:
             raise ParseError("비밀번호가 너무 짧습니다. 최소 8 문자를 포함해야 합니다.")
 
