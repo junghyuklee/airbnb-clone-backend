@@ -9,7 +9,7 @@ from rest_framework.exceptions import (
     ParseError,
     PermissionDenied,
 )
-from rest_framework.status import HTTP_204_NO_CONTENT
+from rest_framework.status import HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
 from .models import Perk, Experience
 from categories.models import Category
 from bookings.models import Booking
@@ -68,7 +68,10 @@ class Experiences(APIView):
             except Exception:
                 raise ParseError("Perk not found")
         else:
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=HTTP_400_BAD_REQUEST,
+            )
 
 
 class ExperienceDetail(APIView):
@@ -134,7 +137,10 @@ class ExperienceDetail(APIView):
             except Exception:
                 raise ParseError("Perk not found")
         else:
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=HTTP_400_BAD_REQUEST,
+            )
 
     def delete(self, request, pk):
         experience = self.get_object(pk)
@@ -198,7 +204,10 @@ class ExperiencePhotos(APIView):
             serializer = PhotoSerializer(photo)
             return Response(serializer.data)
         else:
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=HTTP_400_BAD_REQUEST,
+            )
 
 
 class ExperienceVideos(APIView):
@@ -220,7 +229,10 @@ class ExperienceVideos(APIView):
             serializer = VideoSerializer(video)
             return Response(serializer.data)
         else:
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=HTTP_400_BAD_REQUEST,
+            )
 
 
 class ExperienceBookings(APIView):
@@ -255,7 +267,10 @@ class ExperienceBookings(APIView):
             serializer = PublicBookingSerializer(booking)
             return Response(serializer.data)
         else:
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=HTTP_400_BAD_REQUEST,
+            )
 
 
 class Perks(APIView):
@@ -300,7 +315,10 @@ class PerkDetail(APIView):
                 PerkSerializer(update_perk).data,
             )
         else:
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=HTTP_400_BAD_REQUEST,
+            )
 
     def delete(self, request, pk):
         perk = self.get_object(pk)

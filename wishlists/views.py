@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import NotFound
-from rest_framework.status import HTTP_200_OK
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from .models import Wishlist
 from rooms.models import Room
 from experiences.models import Experience
@@ -30,7 +30,10 @@ class Wishlists(APIView):
             serializer = WishlistSerializer(wishlist)
             return Response(serializer.data)
         else:
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=HTTP_400_BAD_REQUEST,
+            )
 
 
 class WishlistDetail(APIView):
@@ -70,7 +73,10 @@ class WishlistDetail(APIView):
             )
             return Response(serializer.data)
         else:
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=HTTP_400_BAD_REQUEST,
+            )
 
 
 class WishlistRoomToggle(APIView):

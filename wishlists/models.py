@@ -13,7 +13,7 @@ class Wishlist(CommonModel):
     )
     experiences = models.ManyToManyField(
         "experiences.Experience",
-        null=True,
+        blank=True,
         related_name="wishlists",
     )
     user = models.ForeignKey(

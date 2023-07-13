@@ -30,7 +30,10 @@ class Me(APIView):
             serializer = serializers.PrivateUserSerializer(user)
             return Response(serializer.data)
         else:
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class Users(APIView):
@@ -49,7 +52,10 @@ class Users(APIView):
             serializer = serializers.PrivateUserSerializer(user)
             return Response(serializer.data)
         else:
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class PublicUser(APIView):
