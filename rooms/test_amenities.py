@@ -4,7 +4,7 @@ from . import models
 
 class TestAmenities(APITestCase):
     NAME = "Amenity Test"
-    DESC = "Amenity DES"
+    DESC = "Amenity Test Desc"
 
     URL = "/api/v1/rooms/amenities/"
 
@@ -15,7 +15,7 @@ class TestAmenities(APITestCase):
         )
 
     def test_all_amenities(self):
-        response = self.client.get(self.URL)
+        response = self.client.get("/api/v1/rooms/amenities/")
         data = response.json()
 
         self.assertEqual(
