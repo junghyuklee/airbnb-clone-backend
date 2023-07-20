@@ -20,14 +20,13 @@ class TrustMeBroAuthentication(BaseAuthentication):
 class JWTAuthentication(BaseAuthentication):
     def authenticate(self, request):
         token = request.headers.get("jwt")
-        try:
-            decoded = jwt.decode(
-                token,
-                settings.SECRET_KEY,
-                algorithms=["HS256"],
-            )
-        except:
-            raise AuthenticationFailed("Invalid Token")
+        if not token:
+            return None
+        decoded = jwt.decode(
+            token,
+            settings.SECRET_KEY,
+            algorithms=["HS256"],
+        )
         user_pk = decoded.get("pk")
         if not user_pk:
             raise AuthenticationFailed("Invalid Token")

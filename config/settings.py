@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "strawberry.django",
+    "corsheaders",
 ]
 
 CUSTOM_APPS = [
@@ -68,6 +69,7 @@ INSTALLED_APPS = SYSTEM_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -161,8 +163,17 @@ PAGE_SIZE = 5
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
-        # "config.authentication.JWTAuthentication",
-        # "rest_framework.authentication.TokenAuthentication",
         # "config.authentication.TrustMeBroAuthentication",
+        # "rest_framework.authentication.TokenAuthentication",
+        "config.authentication.JWTAuthentication",
     ],
 }
+
+CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:3000", "http://localhost:3000"]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:3000", "http://localhost:3000"]
+
+GH_CLIENT_ID = env("GH_CLIENT_ID")
+GH_SECRET = env("GH_SECRET")

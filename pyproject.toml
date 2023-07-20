@@ -16,6 +16,8 @@ strawberry-graphql = {extras = ["debug-server"], version = "^0.193.1"}
 strawberry-graphql-django = "^0.10.3"
 pyjwt = "^2.7.0"
 django-environ = "^0.10.0"
+django-cors-headers = "^4.2.0"
+requests = "^2.31.0"
 
 
 [build-system]
