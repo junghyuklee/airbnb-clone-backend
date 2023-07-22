@@ -51,7 +51,10 @@ class Users(APIView):
             user.set_password(password)
             user.save()
             serializer = serializers.PrivateUserSerializer(user)
-            return Response(serializer.data)
+            return Response(
+                serializer.data,
+                status=status.HTTP_200_OK,
+            )
         else:
             return Response(
                 serializer.errors,
@@ -102,9 +105,15 @@ class LogIn(APIView):
         )
         if user:
             login(request, user)
-            return Response({"ok": "wellcome!"})
+            return Response(
+                {"ok": "wellcome!"},
+                status=status.HTTP_200_OK,
+            )
         else:
-            return Response({"error": "wrong password"})
+            return Response(
+                {"error": "wrong username or password"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class LogOut(APIView):
@@ -112,7 +121,7 @@ class LogOut(APIView):
 
     def post(self, request):
         logout(request)
-        return Response({"ok": "Bye"})
+        return Response({"ok": "Bye"}, status=status.HTTP_200_OK)
 
 
 class JWTLogIn(APIView):
@@ -132,9 +141,15 @@ class JWTLogIn(APIView):
                 settings.SECRET_KEY,
                 algorithm="HS256",
             )
-            return Response({"token": token})
+            return Response(
+                {"token": token},
+                status=status.HTTP_200_OK,
+            )
         else:
-            return Response({"error": "wrong password"})
+            return Response(
+                {"error": "wrong username or password"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class GitHubLogIn(APIView):
@@ -227,3 +242,32 @@ class KakaoLogIn(APIView):
                 return Response(status=status.HTTP_200_OK)
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class SignUp(APIView):
+    def post(self, request):
+        password = request.data.get("password")
+
+        if len(password) < 8:
+            raise Response(
+                {"error": "username is already used"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        serializer = serializers.signUpUserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            user.set_password(password)
+            user.save()
+            serializer = serializers.PrivateUserSerializer(user)
+            login(request, user)
+            return Response(
+                {"ok": "Sign Up Completed"},
+                status=status.HTTP_200_OK,
+            )
+        else:
+            print(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST,
+            )

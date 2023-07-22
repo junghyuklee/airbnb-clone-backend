@@ -31,6 +31,10 @@ class User(AbstractUser):
         max_length=150,
         default="",
     )
+    email = models.EmailField(
+        unique=True,
+        blank=True,
+    )
     is_host = models.BooleanField(
         default=False,
     )

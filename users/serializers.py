@@ -29,3 +29,13 @@ class PrivateUserSerializer(serializers.ModelSerializer):
         reviews = Review.objects.filter(user=user).order_by("created_at")[0:3]
         serializer = UserReviewSerializer(reviews, many=True)
         return serializer.data
+
+
+class signUpUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "email",
+            "name",
+        )
