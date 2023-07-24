@@ -1,3 +1,5 @@
+import requests
+from django.conf import settings
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -43,3 +45,14 @@ class VideoDetail(APIView):
             raise PermissionDenied
         video.delete()
         return Response(status=HTTP_204_NO_CONTENT)
+
+
+class GetUploadUrl(APIView):
+    def post(self, request):
+        url = f"https://api.cloudflare.com/client/v4/accounts/{settings.CF_ID}/images/v2/direct_upload"
+        uploadImgUrl = requests.post(
+            url, headers={"Authorization": f"Bearer {settings.CF_TOKEN}"}
+        )
+        uploadImgUrl = uploadImgUrl.json()
+        result = uploadImgUrl.get("result")
+        return Response({"uploadURL": result.get("uploadURL")})
