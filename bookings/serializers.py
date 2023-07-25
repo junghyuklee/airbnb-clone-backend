@@ -67,6 +67,8 @@ class CreateExperienceBookingSerializer(serializers.ModelSerializer):
 
 
 class PublicBookingSerializer(serializers.ModelSerializer):
+    user = TinyUserSerializer(read_only=True)
+
     class Meta:
         model = Booking
         fields = (
@@ -75,12 +77,12 @@ class PublicBookingSerializer(serializers.ModelSerializer):
             "check_out",
             "experience_time",
             "guests",
+            "user",
         )
 
 
 class UserBookingSerializer(serializers.ModelSerializer):
     room = BookingRoomSerializer(read_only=True)
-    user = TinyUserSerializer(read_only=True)
 
     class Meta:
         model = Booking
@@ -90,5 +92,18 @@ class UserBookingSerializer(serializers.ModelSerializer):
             "check_out",
             "guests",
             "room",
-            "user",
+        )
+
+
+class RoomBookingSerializer(serializers.ModelSerializer):
+    user = TinyUserSerializer(read_only=True)
+
+    class Meta:
+        model = Booking
+        fields = (
+            "pk",
+            "check_in",
+            "check_out",
+            "guests",
+            "users",
         )

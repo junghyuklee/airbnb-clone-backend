@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import (
@@ -19,6 +19,7 @@ from medias.serializers import PhotoSerializer
 from bookings.serializers import (
     PublicBookingSerializer,
     CreateRoomBookingSerializer,
+    RoomBookingSerializer,
 )
 
 

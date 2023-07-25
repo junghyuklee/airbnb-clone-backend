@@ -279,13 +279,13 @@ class UserBookedRooms(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        all_booking_lists = Booking.objects.filter(
+        user_booking_lists = Booking.objects.filter(
             user=request.user,
             kind=Booking.BookingKindChoices.ROOM,
         )
-        print(all_booking_lists)
+        print(user_booking_lists)
         serializer = UserBookingSerializer(
-            all_booking_lists,
+            user_booking_lists,
             context={"request": request},
             many=True,
         )
