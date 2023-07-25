@@ -2,6 +2,7 @@ from rest_framework import serializers
 from users.models import User
 from rooms.models import Room
 from experiences.models import Experience
+from medias.serializers import PhotoSerializer
 
 
 class TinyUserSerializer(serializers.ModelSerializer):
@@ -29,6 +30,20 @@ class TinyExperienceSerializer(serializers.ModelSerializer):
         model = Experience
         fields = (
             "name",
+            "rating",
+            "photos",
+        )
+
+
+class BookingRoomSerializer(serializers.ModelSerializer):
+    photos = PhotoSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Room
+        fields = (
+            "name",
+            "country",
+            "city",
             "rating",
             "photos",
         )

@@ -14,4 +14,5 @@ urlpatterns = [
     path("github", views.GitHubLogIn.as_view()),
     path("kakao", views.KakaoLogIn.as_view()),
     path("@<str:username>", views.PublicUser.as_view()),
+    path("bookings", views.UserBookedRooms.as_view()),
 ]

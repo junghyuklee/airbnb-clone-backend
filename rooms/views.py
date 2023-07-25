@@ -9,7 +9,7 @@ from rest_framework.exceptions import (
     ParseError,
     PermissionDenied,
 )
-from rest_framework.status import HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_200_OK, HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
 from .models import Amenity, Room
 from categories.models import Category
 from bookings.models import Booking
@@ -226,6 +226,7 @@ class RoomBookings(APIView):
         return Response(serializer.data)
 
     def post(self, request, pk):
+        print(request.data)
         room = self.get_object(pk)
         serializer = CreateRoomBookingSerializer(
             data=request.data,
@@ -238,7 +239,10 @@ class RoomBookings(APIView):
                 user=request.user,
             )
             serializer = PublicBookingSerializer(booking)
-            return Response(serializer.data)
+            return Response(
+                serializer.data,
+                status=HTTP_200_OK,
+            )
         else:
             return Response(
                 serializer.errors,
