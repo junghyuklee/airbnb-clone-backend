@@ -5,7 +5,6 @@ description = ""
 authors = ["coDev <jh900127@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "airbnb_clone_backend"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
