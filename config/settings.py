@@ -37,6 +37,8 @@ DEBUG = "RENDER" not in os.environ
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
+    # 도메인 추가시 필요
+    # "www.example.com"
 ]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
@@ -197,6 +199,10 @@ if DEBUG:
 else:
     CORS_ALLOWED_ORIGINS = ["https://airbnb-frontend-r2dp.onrender.com"]
     CSRF_TRUSTED_ORIGINS = ["https://airbnb-frontend-r2dp.onrender.com"]
+
+    # 도메인 추가시 변경 필요
+    # CORS_ALLOWED_ORIGINS = ["https://airbnb-frontend-r2dp.onrender.com"]
+    # CSRF_TRUSTED_ORIGINS = ["https://airbnb-frontend-r2dp.onrender.com"]
 CORS_ALLOW_CREDENTIALS = True
 
 GH_CLIENT_ID = env("GH_CLIENT_ID")
@@ -206,6 +212,10 @@ CF_ID = env("CF_ID")
 CF_TOKEN = env("CF_TOKEN")
 
 if not DEBUG:
+    # 도메인 설정 시 세팅
+    # 도메인이 www.example.com 일ㄷ 때
+    # SESSION_COOKIE_DOMAIN = ".example.com"
+    # CRSF_COOKIE_DOMAIN = ".example.com"
     sentry_sdk.init(
         dsn="https://a11564a8b429402793cb19ed15784152@o4505593675448320.ingest.sentry.io/4505593680494592",
         integrations=[
